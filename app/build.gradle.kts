@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    // ksp agregado estilo old school, por ahora lo voy a hacer de la manera mas pro posible usnado TOML
+   // id("com.google.devtools.ksp") version "2.3.10"
 }
 
 android {
