@@ -1,4 +1,4 @@
-package com.example.vuelosapp.data.clases
+package com.example.vuelosapp.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

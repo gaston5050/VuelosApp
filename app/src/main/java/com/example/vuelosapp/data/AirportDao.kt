@@ -1,4 +1,4 @@
-package com.example.vuelosapp.data.clases
+package com.example.vuelosapp.data
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -11,16 +11,16 @@ import kotlinx.coroutines.flow.Flow
 interface AirportDao {
 
         @Insert
-        suspend fun insert(airport: Airport)
+        suspend fun insert(favorite: Favorite)
 
         @Update
         suspend fun update(airport: Airport)
 
         @Delete
-        suspend fun delete(airport: Airport)
+        suspend fun delete(favorite: Favorite)
 
-        //Query para que devuelva nombre de aeropuerto/ codigo% IATA  a medida que se escribe en el imput
-        @Query("SELECT * FROM airport WHERE name like  :input OR iata_code  like :input")
+        //Query para que devuelva nombre de aeropuerto/ codigo% IATA  a medida que se escribe en el input
+        @Query("SELECT * FROM airport WHERE name like  :input OR iata_code  like :input order by passangers desc")
         fun getAirports(input: String): Flow<List<Airport>>
 
         @Query ("SELECT * FROM airport WHERE iata_code != :input ")
@@ -28,12 +28,6 @@ interface AirportDao {
 
         @Query ("Select * from favorite")
         fun getFavorites():Flow<List<Favorite>>
-
-     //   @Query("SELECT * FROM ITEMS WHERE ID = :id")
-     //   fun getItem(id: Int): Flow<Item>
-
-        //@Query("SELECT * FROM ITEMS ORDER BY NAME ASC")
-      //  fun getAllItems(): Flow<List<Item>>
 
 
 }
