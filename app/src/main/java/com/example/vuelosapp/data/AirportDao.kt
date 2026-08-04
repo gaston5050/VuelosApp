@@ -20,7 +20,7 @@ interface AirportDao {
         suspend fun delete(favorite: Favorite)
 
         //Query para que devuelva nombre de aeropuerto/ codigo% IATA  a medida que se escribe en el input
-        @Query("SELECT * FROM airport WHERE name like  %:input% OR iata_code  like :input order by passangers desc")
+        @Query("SELECT * FROM airport WHERE name like  '%'||:input ||'%' OR iata_code   like '%'||:input ||'%' order by passengers desc")
         fun getAirports(input: String): Flow<List<Airport>>
 
         @Query ("SELECT * FROM airport WHERE iata_code != :input ")

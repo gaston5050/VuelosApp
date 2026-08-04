@@ -11,6 +11,6 @@ data class Airport(
     val name: String,
     @ColumnInfo(name = "iata_code")
     val iataCode: String,
-    val passangers: Int
+    val passengers: Int
 )
 

@@ -7,8 +7,8 @@ interface VuelosRepository {
     fun getAllAirports(): Flow<List<Airport>>
     fun getPossibleDestinations(input: String): Flow<List<Airport>>
     fun getFavorites(): Flow<List<Favorite>>
-    fun addFavorite(favorite: Favorite)
-    fun removeFavorite(favorite: Favorite)
 
+    suspend fun addFavorite(favorite: Favorite)
+    suspend fun removeFavorite(favorite: Favorite)
 
 }
