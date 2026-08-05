@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
 abstract class AirportDatabase: RoomDatabase() {
 
     //
-    abstract fun AirportDao(): AirportDao
+    abstract fun airportDao(): AirportDao
 
 
     companion object {
