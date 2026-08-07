@@ -51,6 +51,12 @@ class InicioViewModel(private val flightRepository: VuelosRepository, private va
         }
     }
 
+    fun caracteresIngresados(caracter: String){
+        viewModelScope.launch {
+        userPreferencesRepository.actualizarTextoIngresado(caracter)
+        }
+    }
+
 
 
 }
