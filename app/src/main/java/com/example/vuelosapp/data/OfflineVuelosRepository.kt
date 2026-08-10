@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 class OfflineVuelosRepository(private val airportDao: AirportDao): VuelosRepository {
 
-    override fun getAllAirports(): Flow<List<Airport>>  = airportDao.getAirports("")
+    override fun getAirports(input:String): Flow<List<Airport>>  = airportDao.getAirports(input)
 
     override fun getPossibleDestinations(input: String): Flow<List<Airport>> = airportDao.getPossibleDestinations(input)
 

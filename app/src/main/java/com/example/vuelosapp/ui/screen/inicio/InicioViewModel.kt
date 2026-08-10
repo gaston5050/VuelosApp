@@ -2,6 +2,7 @@ package com.example.vuelosapp.ui.screen.inicio
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.vuelosapp.data.Airport
 import com.example.vuelosapp.data.UserPreferencesRepository
 import com.example.vuelosapp.data.VuelosRepository
 import com.example.vuelosapp.data.VuelosUiState
@@ -27,7 +28,7 @@ class InicioViewModel(private val flightRepository: VuelosRepository, private va
             // escuha dataStore y busca los aeropuertos
                 userPreferencesRepository.textIngresado.collect {
                     textEscrito ->
-                    flightRepository.getAllAirports().collect {
+                    flightRepository.getAirports(textEscrito).collect {
                         lista -> _uiState.update {
                             estadoActual -> estadoActual.copy(
                                 textoBusqueda =  textEscrito,
@@ -54,6 +55,15 @@ class InicioViewModel(private val flightRepository: VuelosRepository, private va
     fun caracteresIngresados(caracter: String){
         viewModelScope.launch {
         userPreferencesRepository.actualizarTextoIngresado(caracter)
+        }
+    }
+
+    fun aeropuertoSeleccionado(aeropuerto: Airport){
+
+            _uiState.update {
+                aeropuertoSeleccionado->
+                aeropuertoSeleccionado.copy(aeropuertoSeleccionado = aeropuerto)
+
         }
     }
 

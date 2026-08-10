@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    //para el viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     //dependencias de room
     implementation(libs.androidx.room.runtime)
