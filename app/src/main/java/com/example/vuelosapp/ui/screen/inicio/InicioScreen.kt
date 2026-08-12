@@ -1,6 +1,7 @@
 package com.example.vuelosapp.ui.screen.inicio
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +19,18 @@ import com.example.vuelosapp.ui.AppViewModelProvider
 import com.example.vuelosapp.ui.theme.VuelosAppTheme
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.TextField
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
+
+
+import androidx.compose.material3.IconButton
+
+import androidx.compose.ui.res.painterResource
+import com.example.vuelosapp.R
+import com.example.vuelosapp.data.Favorite
+
 
 // 1. PANTALLA CON ESTADO: Se usa en la navegación de la App
 @Composable
@@ -56,10 +68,8 @@ fun InicioContent(
             modifier = Modifier.fillMaxWidth()
 
         )
-        LazyColumn( modifier = Modifier.padding(12.dp)
-            .fillMaxWidth()
+        LazyColumn( Modifier.fillMaxWidth()
         ) {
-
 
             items(uiState.listadoAeropuertosFiltrados) {
                     aeropuerto -> AirportCard(aeropuerto)
@@ -72,13 +82,77 @@ fun InicioContent(
 }
 
 @Composable
+fun FavoriteCard(favorite: Favorite){
+
+    Card(
+        onClick = {},
+        Modifier.fillMaxWidth()
+            .padding(0.dp,12.dp,0.dp, 0.dp)
+
+    ) {
+        Column(Modifier.padding(12.dp)
+            .fillMaxWidth()) {
+            // Set views in a column
+            Row(){
+                Column(Modifier.weight(1f)){
+                    Text(favorite.departureCode, fontWeight = FontWeight.W700)
+                    Text(airport.iataCode)
+                    Text("Pasajeros: " + airport.passengers, color = Color.Gray)
+                }
+                IconButton(
+                    onClick={}
+                ){
+                    Icon(painter = painterResource(R.drawable.baseline_star_border_24),
+                        contentDescription = null)
+                }
+
+
+
+            }
+        }
+    }
+
+
+}
+
+@Composable
 fun AirportCard(airport: Airport) {
     Card(
-        onClick={},
-        Modifier.fillMaxWidth()){
-        Text("Coso")
+        onClick = {},
+        Modifier.fillMaxWidth()
+            .padding(0.dp,12.dp,0.dp, 0.dp)
+
+    ) {
+        Column(Modifier.padding(12.dp)
+            .fillMaxWidth()) {
+        // Set views in a column
+        Row(){
+        Column(Modifier.weight(1f)){
+        Text(airport.name, fontWeight = FontWeight.W700)
+        Text(airport.iataCode)
+        Text("Pasajeros: " + airport.passengers, color = Color.Gray)
+        }
+            IconButton(
+                onClick={}
+            ){
+                Icon(painter = painterResource(R.drawable.baseline_star_border_24),
+                    contentDescription = null)
+            }
+
+
+
+        }
+        }
     }
+
 }
+
+
+
+
+
+
+
 
 
 
