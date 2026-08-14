@@ -65,7 +65,7 @@ fun InicioContent(
         .padding(padding, top= 40.dp,end= padding)
     ){
         TextField(
-            value= "",
+            value= uiState.textoBusqueda,
             onValueChange = onTextoChanged,
             label = { Text("Ingrese nombre") },
             modifier = Modifier.fillMaxWidth()
@@ -73,10 +73,11 @@ fun InicioContent(
         )
         LazyColumn( Modifier.fillMaxWidth()
         ) {
+            if(uiState.textoBusqueda != "") {
+                items(uiState.listadoAeropuertosFiltrados) { aeropuerto ->
+                    AirportCard(aeropuerto, onClick = {onAeropuertoSelected(aeropuerto)} )
 
-            items(uiState.listadoAeropuertosFiltrados) {
-                    aeropuerto -> AirportCard(aeropuerto)
-
+                }
             }
         }
 
@@ -120,15 +121,15 @@ fun FavoriteCard(favorite: Favorite){
 
             }
         }
-    }
+    }gi
 
 
 }
 
 @Composable
-fun AirportCard(airport: Airport) {
+fun AirportCard(airport: Airport, onClick: ()-> Unit) {
     Card(
-        onClick = {},
+        onClick = onClick,
         Modifier.fillMaxWidth()
             .padding(0.dp,8.dp,0.dp, 0.dp)
 
