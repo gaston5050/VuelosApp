@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,7 @@ class InicioViewModel(
 
     private val _uiState = MutableStateFlow(VuelosUiState())
     val uiState: StateFlow<VuelosUiState> = _uiState.asStateFlow()
+
 
     private val _textoBusqueda = MutableStateFlow("")
 
@@ -71,6 +73,12 @@ class InicioViewModel(
     fun aeropuertoSeleccionado(aeropuerto: Airport) {
         _uiState.update { estadoActual ->
             estadoActual.copy(aeropuertoSeleccionado = aeropuerto)
+        }
+    }
+
+    fun aeropuertoClickado (aeropuerto: Airport){
+        _uiState.update {
+            estado -> estado.copy( listaPosiblesDestinos = flightRepository.getPossibleDestinations(aeropuerto.name) as List<Airport>)
         }
     }
 }

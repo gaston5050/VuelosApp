@@ -45,7 +45,8 @@ fun InicioScreen(
     InicioContent(
         uiState = uiState,
         onTextoChanged = { texto -> viewModel.caracteresIngresados(texto) },
-        onAeropuertoSelected = { aeropuerto -> viewModel.aeropuertoSeleccionado(aeropuerto) }
+        onAeropuertoSelected = { aeropuerto -> viewModel.aeropuertoSeleccionado(aeropuerto) },
+        onAeropuertoClickado = {aeropuerto -> viewModel.aeropuertoClickado(aeropuerto)}
     )
 }
 
@@ -54,7 +55,8 @@ fun InicioScreen(
 fun InicioContent(
     uiState: VuelosUiState,
     onTextoChanged: (String) -> Unit,
-    onAeropuertoSelected: (Airport) -> Unit
+    onAeropuertoSelected: (Airport) -> Unit,
+    onAeropuertoClickado: (Airport)-> Unit
 ) {
     // Acá va todo tu diseño visual (TextField, LazyColumn, etc.)
     // Usás 'uiState.textoBusqueda', 'uiState.listadoAeropuertosFiltrados', etc.
@@ -62,8 +64,7 @@ fun InicioContent(
     val padding = 16.dp
     Column(Modifier
         .fillMaxWidth()
-        .padding(padding, top= 40.dp,end= padding)
-    ){
+        .padding(padding, top= 40.dp,end= padding)    ){
         TextField(
             value= uiState.textoBusqueda,
             onValueChange = onTextoChanged,
@@ -73,10 +74,16 @@ fun InicioContent(
         )
         LazyColumn( Modifier.fillMaxWidth()
         ) {
-            if(uiState.textoBusqueda != "") {
+            if(uiState.textoBusqueda != "" && uiState.aeropuertoSeleccionado == null) {
                 items(uiState.listadoAeropuertosFiltrados) { aeropuerto ->
                     AirportCard(aeropuerto, onClick = {onAeropuertoSelected(aeropuerto)} )
 
+                }
+            }
+            if (uiState.aeropuertoSeleccionado != null){
+                items(uiState.listaPosiblesDestinos){
+                    aeropuerto ->
+                    PossibleDestinationCard(uiState.aeropuertoSeleccionado, aeropuerto)
                 }
             }
         }
@@ -84,6 +91,46 @@ fun InicioContent(
     }
 
 }
+
+
+@Composable
+fun PossibleDestinationCard(aeropuertoSeleccionado: Airport, aeropuertoDestiono: Airport){
+
+    Card(
+        onClick = {},
+        Modifier.fillMaxWidth()
+            .padding(0.dp,12.dp,0.dp, 0.dp)
+
+    ) {
+        Column(Modifier.padding(12.dp)
+            .fillMaxWidth()) {
+            // Set views in a column
+            Row(){
+                Column(Modifier.weight(1f)){
+                    Text("Salida")
+                    Spacer(Modifier.size(2.dp))
+                    Text(aeropuertoSeleccionado.iataCode +" - " + aeropuertoSeleccionado.name, fontWeight = FontWeight.W700)
+                    Spacer(Modifier.size(4.dp))
+                    Text("Destino")
+                    Spacer(Modifier.size(2.dp))
+                    Text(aeropuertoDestiono.iataCode +" - "+ aeropuertoDestiono.name, fontWeight = FontWeight.W700)
+                }
+                IconButton(
+                    onClick={}
+                ){
+                    Icon(painter = painterResource(R.drawable.baseline_star_border_24),
+                        contentDescription = null)
+                }
+
+
+
+            }
+        }
+    }
+}
+
+
+
 
 //Esta card me va a servir para listar los posibles destinos desde un aeropuerto seleccionado
 // y tambien me va a servir para listar los Favoritos (filled star)
@@ -121,7 +168,7 @@ fun FavoriteCard(favorite: Favorite){
 
             }
         }
-    }gi
+    }
 
 
 }
@@ -145,6 +192,14 @@ fun AirportCard(airport: Airport, onClick: ()-> Unit) {
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun posibleDestinosPreview(){
+    val a1: Airport = Airport(3, "Noruega", "NWG", 3568)
+    val a2: Airport = Airport(3,"China", "CHN", 170000)
+    PossibleDestinationCard(a1, a2)
 }
 
 @Preview(showBackground = true)
@@ -178,7 +233,9 @@ fun InicioScreenPreview() {
                 )
             ),
             onTextoChanged = {},
-            onAeropuertoSelected = {}
+            onAeropuertoSelected = {},
+            onAeropuertoClickado = {}
+
         )
     }
 }
