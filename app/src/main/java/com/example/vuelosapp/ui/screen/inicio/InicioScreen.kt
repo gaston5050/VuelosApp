@@ -46,7 +46,7 @@ fun InicioScreen(
         uiState = uiState,
         onTextoChanged = { texto -> viewModel.caracteresIngresados(texto) },
         onAeropuertoSelected = { aeropuerto -> viewModel.aeropuertoSeleccionado(aeropuerto) },
-        onAeropuertoClickado = {aeropuerto -> viewModel.aeropuertoClickado(aeropuerto)}
+        //onAeropuertoClickado = {aeropuerto -> viewModel.aeropuertoClickado(aeropuerto)}
     )
 }
 
@@ -56,7 +56,7 @@ fun InicioContent(
     uiState: VuelosUiState,
     onTextoChanged: (String) -> Unit,
     onAeropuertoSelected: (Airport) -> Unit,
-    onAeropuertoClickado: (Airport)-> Unit
+ //   onAeropuertoClickado: (Airport)-> Unit
 ) {
     // Acá va todo tu diseño visual (TextField, LazyColumn, etc.)
     // Usás 'uiState.textoBusqueda', 'uiState.listadoAeropuertosFiltrados', etc.
@@ -83,7 +83,7 @@ fun InicioContent(
             if (uiState.aeropuertoSeleccionado != null){
                 items(uiState.listaPosiblesDestinos){
                     aeropuerto ->
-                    PossibleDestinationCard(uiState.aeropuertoSeleccionado, aeropuerto)
+                    PossibleDestinationCard(uiState.aeropuertoSeleccionado, aeropuerto, onClick = )
                 }
             }
         }
@@ -94,10 +94,10 @@ fun InicioContent(
 
 
 @Composable
-fun PossibleDestinationCard(aeropuertoSeleccionado: Airport, aeropuertoDestiono: Airport){
+fun PossibleDestinationCard(aeropuertoSeleccionado: Airport, aeropuertoDestiono: Airport, onClick: ()-> Unit){
 
     Card(
-        onClick = {},
+        onClick = onClick,
         Modifier.fillMaxWidth()
             .padding(0.dp,12.dp,0.dp, 0.dp)
 
@@ -234,7 +234,7 @@ fun InicioScreenPreview() {
             ),
             onTextoChanged = {},
             onAeropuertoSelected = {},
-            onAeropuertoClickado = {}
+            //onAeropuertoClickado = {}
 
         )
     }

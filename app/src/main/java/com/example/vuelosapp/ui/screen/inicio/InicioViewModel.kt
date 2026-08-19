@@ -3,6 +3,7 @@ package com.example.vuelosapp.ui.screen.inicio
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vuelosapp.data.Airport
+import com.example.vuelosapp.data.Favorite
 import com.example.vuelosapp.data.UserPreferencesRepository
 import com.example.vuelosapp.data.VuelosRepository
 import com.example.vuelosapp.data.VuelosUiState
@@ -74,11 +75,33 @@ class InicioViewModel(
         _uiState.update { estadoActual ->
             estadoActual.copy(aeropuertoSeleccionado = aeropuerto)
         }
+
+        viewModelScope.launch{
+               flightRepository.getPossibleDestinations(aeropuerto.iataCode).collect {
+                   destinos ->
+                   _uiState.update { estadoActual ->
+                       estadoActual.copy(listaPosiblesDestinos = destinos)
+                   }
+               }
+        }
     }
 
+
+    fun agregarAFavoritos(salida: Airport, destino: Airport ) {
+
+        viewModelScope.launch {
+
+            val favorito: Favorite = Favorite(departureCode = salida.iataCode + " - " + salida.name , destinationCode = destino.iataCode + " - " + destino.name )
+
+            _uiState.update(
+                    listado   -> listado.copy()
+        }
+
+    }
+ /*
     fun aeropuertoClickado (aeropuerto: Airport){
         _uiState.update {
             estado -> estado.copy( listaPosiblesDestinos = flightRepository.getPossibleDestinations(aeropuerto.name) as List<Airport>)
         }
-    }
+    }*/
 }
