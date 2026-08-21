@@ -46,7 +46,7 @@ fun InicioScreen(
         uiState = uiState,
         onTextoChanged = { texto -> viewModel.caracteresIngresados(texto) },
         onAeropuertoSelected = { aeropuerto -> viewModel.aeropuertoSeleccionado(aeropuerto) },
-        //onAeropuertoClickado = {aeropuerto -> viewModel.aeropuertoClickado(aeropuerto)}
+        onAeropuertoClickado = {salida, destino -> viewModel.agregarAFavoritos(salida, destino)}
     )
 }
 
@@ -56,7 +56,7 @@ fun InicioContent(
     uiState: VuelosUiState,
     onTextoChanged: (String) -> Unit,
     onAeropuertoSelected: (Airport) -> Unit,
- //   onAeropuertoClickado: (Airport)-> Unit
+     onAeropuertoClickado: (Airport, Airport)-> Unit
 ) {
     // Acá va todo tu diseño visual (TextField, LazyColumn, etc.)
     // Usás 'uiState.textoBusqueda', 'uiState.listadoAeropuertosFiltrados', etc.
@@ -81,9 +81,10 @@ fun InicioContent(
                 }
             }
             if (uiState.aeropuertoSeleccionado != null){
+                val salida = uiState.aeropuertoSeleccionado
                 items(uiState.listaPosiblesDestinos){
                     aeropuerto ->
-                    PossibleDestinationCard(uiState.aeropuertoSeleccionado, aeropuerto, onClick = )
+                    PossibleDestinationCard(salida, aeropuerto, onClick = {}, onFavoriteClick ={ onAeropuertoClickado(salida, aeropuerto)  })
                 }
             }
         }
@@ -94,7 +95,7 @@ fun InicioContent(
 
 
 @Composable
-fun PossibleDestinationCard(aeropuertoSeleccionado: Airport, aeropuertoDestiono: Airport, onClick: ()-> Unit){
+fun PossibleDestinationCard(aeropuertoSeleccionado: Airport, aeropuertoDestiono: Airport, onClick: ()-> Unit, onFavoriteClick: () -> Unit){
 
     Card(
         onClick = onClick,
@@ -115,8 +116,7 @@ fun PossibleDestinationCard(aeropuertoSeleccionado: Airport, aeropuertoDestiono:
                     Spacer(Modifier.size(2.dp))
                     Text(aeropuertoDestiono.iataCode +" - "+ aeropuertoDestiono.name, fontWeight = FontWeight.W700)
                 }
-                IconButton(
-                    onClick={}
+                IconButton(onClick = onFavoriteClick
                 ){
                     Icon(painter = painterResource(R.drawable.baseline_star_border_24),
                         contentDescription = null)
@@ -199,7 +199,7 @@ fun AirportCard(airport: Airport, onClick: ()-> Unit) {
 fun posibleDestinosPreview(){
     val a1: Airport = Airport(3, "Noruega", "NWG", 3568)
     val a2: Airport = Airport(3,"China", "CHN", 170000)
-    PossibleDestinationCard(a1, a2)
+    PossibleDestinationCard(a1, a2, {}, onFavoriteClick = {})
 }
 
 @Preview(showBackground = true)
@@ -224,17 +224,19 @@ fun favoritePreview (){
 @Composable
 fun InicioScreenPreview() {
     VuelosAppTheme {
+         val lista = listOf(
+             Airport(id = 1, name = "Ezeiza", iataCode = "EZE", passengers = 100000),
+             Airport(id = 2, name = "Aeroparque", iataCode = "AEP", passengers = 80000)
+         )
+
+
         InicioContent(
             uiState = VuelosUiState(
                 textoBusqueda = "EZE",
-                listadoAeropuertosFiltrados = listOf(
-                    Airport(id = 1, name = "Ezeiza", iataCode = "EZE", passengers = 100000),
-                    Airport(id = 2, name = "Aeroparque", iataCode = "AEP", passengers = 80000)
-                )
+                listadoAeropuertosFiltrados = lista
             ),
             onTextoChanged = {},
-            onAeropuertoSelected = {},
-            //onAeropuertoClickado = {}
+            onAeropuertoSelected = {}
 
         )
     }
