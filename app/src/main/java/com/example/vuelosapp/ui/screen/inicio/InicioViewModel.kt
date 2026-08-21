@@ -91,10 +91,15 @@ class InicioViewModel(
 
         viewModelScope.launch {
 
-            val favorito: Favorite = Favorite(departureCode = salida.iataCode + " - " + salida.name , destinationCode = destino.iataCode + " - " + destino.name )
+            val salida = salida.iataCode + " - " + salida.name
+            val destino = destino.iataCode + " - " + destino.name
+            val preFavorited = _uiState.value.listaFavoritos.find {
+                favorito -> favorito.departureCode == salida && favorito.destinationCode == destino
+                }
 
-            _uiState.update(
-                    listado   -> listado.copy()
+            if (preFavorited == null){
+                  flightRepository.addFavorite(Favorite(departureCode = salida, destinationCode = destino))
+            }
         }
 
     }
